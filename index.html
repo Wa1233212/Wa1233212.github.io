@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carlos — Desarrollador Freelance</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0f0d;
+    --ink-2: #3a3a35;
+    --ink-3: #7a7a72;
+    --paper: #faf9f6;
+    --paper-2: #f2f0ea;
+    --paper-3: #e8e5db;
+    --blue: #1a4fa0;
+    --blue-light: #dde8f8;
+    --blue-mid: #4a7fd4;
+    --accent: #c8401a;
+    --accent-light: #faeae4;
+  }
+
+  @media print {
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background: white; }
+    .page { box-shadow: none; }
+  }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: #d6d3c8;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+  }
+
+  .page {
+    width: 860px;
+    min-height: 1123px;
+    background: var(--paper);
+    box-shadow: 0 20px 80px rgba(0,0,0,0.25), 0 4px 16px rgba(0,0,0,0.12);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* TOP STRIPE */
+  .stripe {
+    height: 6px;
+    background: linear-gradient(90deg, var(--blue) 0%, var(--blue-mid) 60%, var(--accent) 100%);
+  }
+
+  /* GRID LAYOUT */
+  .layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: calc(1123px - 6px);
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    background: var(--ink);
+    padding: 40px 28px;
+    position: relative;
+  }
+
+  .sidebar::after {
+    content: '';
+    position: absolute;
+    top: 0; right: -1px; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--blue-mid) 30%, var(--blue-mid) 70%, transparent);
+    opacity: 0.3;
+  }
+
+  /* Avatar */
+  .avatar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 0.5px solid rgba(255,255,255,0.1);
+  }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--blue);
+    border: 2px solid var(--blue-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: white;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+  }
+
+  .name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: white;
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .role {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--blue-mid);
+    text-align: center;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* Sidebar sections */
+  .s-section { margin-bottom: 28px; }
+
+  .s-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue-mid);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .s-label::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .info-icon {
+    font-size: 12px;
+    color: var(--blue-mid);
+    margin-top: 1px;
+    flex-shrink: 0;
+    width: 14px;
+  }
+
+  .info-text {
+    font-size: 13px;
+    color: rgba(255,255,255,0.82);
+    line-height: 1.5;
+  }
+
+  .info-text strong {
+    color: white;
+    font-weight: 500;
+    display: block;
+    font-size: 13.5px;
+  }
+
+  /* Skill bars */
+  .skill-item { margin-bottom: 10px; }
+
+  .skill-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+
+  .skill-name {
+    font-size: 13px;
+    color: rgba(255,255,255,0.9);
+    font-weight: 500;
+  }
+
+  .skill-level {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--blue-mid);
+  }
+
+  .skill-bar {
+    height: 5px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .skill-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue-mid), #7aadee);
+    border-radius: 2px;
+  }
+
+  /* Tech tags sidebar */
+  .tag-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.09);
+    border: 0.5px solid rgba(255,255,255,0.18);
+    border-radius: 3px;
+    color: rgba(255,255,255,0.80);
+  }
+
+  .tag.hi {
+    background: rgba(26,79,160,0.35);
+    border-color: rgba(74,127,212,0.4);
+    color: #7aadee;
+  }
+
+  /* MAIN CONTENT */
+  .main {
+    padding: 40px 40px 40px 44px;
+  }
+
+  /* Section */
+  .section { margin-bottom: 34px; }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--ink);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: var(--paper-3);
+  }
+
+  /* Bio */
+  .bio {
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--ink-2);
+    border-left: 3px solid var(--blue);
+    padding-left: 16px;
+  }
+
+  /* Services */
+  .services {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+
+  .service-card {
+    background: var(--paper-2);
+    border: 0.5px solid var(--paper-3);
+    border-radius: 6px;
+    padding: 14px;
+  }
+
+  .service-icon-wrap {
+    width: 28px;
+    height: 28px;
+    background: var(--blue-light);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+
+  .service-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .service-desc {
+    font-size: 12px;
+    color: var(--ink-3);
+    line-height: 1.65;
+  }
+
+  /* Project card */
+  .project-card {
+    border: 0.5px solid var(--paper-3);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .project-head {
+    background: var(--ink);
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .project-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    color: white;
+    line-height: 1.3;
+    margin-bottom: 3px;
+  }
+
+  .project-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--blue-mid);
+    letter-spacing: 0.05em;
+  }
+
+  .project-badge {
+    background: var(--accent);
+    color: white;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    margin-left: 12px;
+    margin-top: 2px;
+  }
+
+  .project-body {
+    padding: 14px 18px;
+    background: var(--paper);
+  }
+
+  .project-desc {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.75;
+    margin-bottom: 12px;
+  }
+
+  .proj-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .proj-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    background: var(--blue-light);
+    color: var(--blue);
+    border-radius: 3px;
+    font-weight: 500;
+  }
+
+  /* Footer line */
+  .footer-line {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--blue) 0%, var(--blue-mid) 60%, var(--accent) 100%);
+  }
+
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="stripe"></div>
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="avatar-wrap">
+        <div><img class="avatar"src="data:image/webp;base64,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" alt="" width="100" height="100" /></div>
+        <div class="name">Carlos</div>
+        <div class="role">Freelance Dev</div>
+      </div>
+
+      <div class="s-section">
+        <div class="s-label">Contacto</div>
+        <div class="info-item">
+          <span class="info-icon">📍</span>
+          <div class="info-text"><strong>Huelva, España</strong>Trabajo 100% remoto</div>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">🌐</span>
+          <div class="info-text"><strong>Malt</strong>Disponible para proyectos</div>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">⌚</span>
+          <div class="info-text"><strong>Disponibilidad</strong>Flexible por proyecto</div>
+        </div>
+      </div>
+
+      <div class="s-section">
+        <div class="s-label">Idiomas</div>
+        <div class="skill-item">
+          <div class="skill-top">
+            <span class="skill-name">Español</span>
+            <span class="skill-level">Nativo</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:100%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top">
+            <span class="skill-name">Inglés</span>
+            <span class="skill-level">C1</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top">
+            <span class="skill-name">Francés</span>
+            <span class="skill-level">Básico</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:25%"></div></div>
+        </div>
+      </div>
+
+      <div class="s-section">
+        <div class="s-label">Frameworks</div>
+        <div class="skill-item">
+          <div class="skill-top">
+            <span class="skill-name">Laravel</span>
+            <span class="skill-level">Avanzado</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top">
+            <span class="skill-name">Django</span>
+            <span class="skill-level">Intermedio</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top">
+            <span class="skill-name">Tailwind CSS</span>
+            <span class="skill-level">Avanzado</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+        </div>
+      </div>
+
+      <div class="s-section">
+        <div class="s-label">Stack</div>
+        <div class="tag-grid">
+          <span class="tag hi">PHP</span>
+          <span class="tag hi">Python</span>
+          <span class="tag hi">Docker</span>
+          <span class="tag">MariaDB</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">Git</span>
+          <span class="tag">Bash</span>
+          <span class="tag">HTML/CSS</span>
+          <span class="tag">JS</span>
+          <span class="tag">NixOS</span>
+          <span class="tag">Arch</span>
+          <span class="tag">Linux</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <div class="section">
+        <h2 class="section-title">Sobre mí</h2>
+        <p class="bio">
+          Desarrollador web freelance especializado en aplicaciones de gestión a medida para pymes y autónomos.
+          Construyo soluciones completas con <strong>Laravel</strong> y <strong>Django</strong>: desde el diseño
+          del modelo de datos hasta el despliegue en producción. También ofrezco asesoría sobre infraestructura
+          Linux y entornos de servidor. Código limpio, comunicación directa y plazos cumplidos.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Servicios</h2>
+        <div class="services">
+          <div class="service-card">
+            <div class="service-icon-wrap">⚙️</div>
+            <div class="service-name">Desarrollo web a medida</div>
+            <div class="service-desc">Apps con Laravel o Django, APIs, CRUD, paneles de estadísticas, despliegue Docker.</div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon-wrap">🖥️</div>
+            <div class="service-name">Administración Linux</div>
+            <div class="service-desc">Configuración de servidores, scripting Bash, Docker, optimización de entornos.</div>
+          </div>
+          <div class="service-card">
+            <div class="service-icon-wrap">💬</div>
+            <div class="service-name">Consultoría técnica</div>
+            <div class="service-desc">Auditoría de proyectos, elección de stack, revisión de arquitectura y código.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Proyectos</h2>
+        <div class="project-card">
+          <div class="project-head">
+            <div>
+              <div class="project-title">Almacén de palets — Gestión de inventario</div>
+              <div class="project-meta">Proyecto freelance · Cliente · Barcelona · 2026</div>
+            </div>
+            <div class="project-badge">ENTREGADO</div>
+          </div>
+          <div class="project-body">
+            <p class="project-desc">
+              Aplicación web completa para gestionar palés de devoluciones de Amazon. Incluye CRUD de palés
+              y artículos con referencias autoasignadas, marcado de ventas, panel de estadísticas, autenticación
+              por <code>.env</code>, búsqueda AJAX, backup y restauración con PIN de seguridad y despliegue
+              con Docker para Windows.
+            </p>
+            <div class="proj-tags">
+              <span class="proj-tag">Laravel 11</span>
+              <span class="proj-tag">Tailwind CSS v4</span>
+              <span class="proj-tag">MariaDB</span>
+              <span class="proj-tag">Docker</span>
+              <span class="proj-tag">AJAX</span>
+              <span class="proj-tag">PHP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Modalidad</h2>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <div style="background:var(--paper-2); border:0.5px solid var(--paper-3); border-radius:6px; padding:12px 18px; display:flex; align-items:center; gap:10px;">
+            <span style="font-size:22px;">🌍</span>
+            <div>
+              <div style="font-size:13px; font-weight:600; color:var(--ink);">100% Remoto</div>
+              <div style="font-size:12px; color:var(--ink-3);">Disponible en toda España y Europa</div>
+            </div>
+          </div>
+          <div style="background:var(--paper-2); border:0.5px solid var(--paper-3); border-radius:6px; padding:12px 18px; display:flex; align-items:center; gap:10px;">
+            <span style="font-size:22px;">📋</span>
+            <div>
+              <div style="font-size:13px; font-weight:600; color:var(--ink);">Por proyecto</div>
+              <div style="font-size:12px; color:var(--ink-3);">Tarifa fija o por horas</div>
+            </div>
+          </div>
+          <div style="background:var(--paper-2); border:0.5px solid var(--paper-3); border-radius:6px; padding:12px 18px; display:flex; align-items:center; gap:10px;">
+            <span style="font-size:22px;">⚡</span>
+            <div>
+              <div style="font-size:13px; font-weight:600; color:var(--ink);">Respuesta rápida</div>
+              <div style="font-size:12px; color:var(--ink-3);">Comunicación directa y ágil</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+  <div class="footer-line"></div>
+</div>
+</body>
+</html>
