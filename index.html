@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=860, initial-scale=1.0">
-<title>Carlos — Desarrollador Freelance</title>
+<title>Carlos — Freelance Developer</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -372,7 +372,41 @@
     font-weight: 500;
   }
 
-  /* Footer line */
+  /* Lang toggle */
+  .lang-toggle {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 100;
+    display: flex;
+    background: var(--ink);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+
+  .lang-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 7px 14px;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.08em;
+    transition: all 0.2s;
+  }
+
+  .lang-btn.active {
+    background: var(--blue);
+    color: white;
+  }
+
+  .lang-btn:hover:not(.active) {
+    color: rgba(255,255,255,0.8);
+  }
+
+
   .footer-line {
     position: absolute;
     bottom: 0; left: 0; right: 0;
@@ -383,6 +417,10 @@
 </style>
 </head>
 <body>
+<div class="lang-toggle">
+  <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+  <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+</div>
 <div class="page">
   <div class="stripe"></div>
   <div class="layout">
@@ -391,46 +429,46 @@
     <aside class="sidebar">
       <div class="avatar-wrap">
         <div><img class="avatar"src="data:image/webp;base64,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" alt="" width="100" height="100" /></div>
-        <div class="name">Carlos Carmona Cervera</div>
-        <div class="role">Desarrollador Web</div>
+        <div class="name">Carlos</div>
+        <div class="role">Freelance Dev</div>
       </div>
 
       <div class="s-section">
-        <div class="s-label">Contacto</div>
+        <div class="s-label" data-en="Contact" data-es="Contacto">Contact</div>
         <div class="info-item">
           <span class="info-icon">📍</span>
-          <div class="info-text"><strong>Huelva, España</strong>Trabajo 100% remoto</div>
+          <div class="info-text"><strong data-en="Huelva, Spain" data-es="Huelva, España">Huelva, Spain</strong><span data-en="100% remote work" data-es="Trabajo 100% remoto">100% remote work</span></div>
         </div>
         <div class="info-item">
           <span class="info-icon">🌐</span>
-          <div class="info-text"><strong>Malt</strong>Disponible para proyectos</div>
+          <div class="info-text"><strong>Malt</strong><span data-en="Available for projects" data-es="Disponible para proyectos">Available for projects</span></div>
         </div>
         <div class="info-item">
           <span class="info-icon">⌚</span>
-          <div class="info-text"><strong>Disponibilidad</strong>Flexible por proyecto</div>
+          <div class="info-text"><strong data-en="Availability" data-es="Disponibilidad">Availability</strong><span data-en="Flexible per project" data-es="Flexible por proyecto">Flexible per project</span></div>
         </div>
       </div>
 
       <div class="s-section">
-        <div class="s-label">Idiomas</div>
+        <div class="s-label" data-en="Languages" data-es="Idiomas">Languages</div>
         <div class="skill-item">
           <div class="skill-top">
-            <span class="skill-name">Español</span>
-            <span class="skill-level">Nativo</span>
+            <span class="skill-name" data-en="Spanish" data-es="Español">Spanish</span>
+            <span class="skill-level" data-en="Native" data-es="Nativo">Native</span>
           </div>
           <div class="skill-bar"><div class="skill-fill" style="width:100%"></div></div>
         </div>
         <div class="skill-item">
           <div class="skill-top">
-            <span class="skill-name">Inglés</span>
+            <span class="skill-name" data-en="English" data-es="Inglés">English</span>
             <span class="skill-level">C1</span>
           </div>
           <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
         </div>
         <div class="skill-item">
           <div class="skill-top">
-            <span class="skill-name">Francés</span>
-            <span class="skill-level">Básico</span>
+            <span class="skill-name" data-en="French" data-es="Francés">French</span>
+            <span class="skill-level" data-en="Basic" data-es="Básico">Basic</span>
           </div>
           <div class="skill-bar"><div class="skill-fill" style="width:25%"></div></div>
         </div>
@@ -441,21 +479,21 @@
         <div class="skill-item">
           <div class="skill-top">
             <span class="skill-name">Laravel</span>
-            <span class="skill-level">Avanzado</span>
+            <span class="skill-level" data-en="Advanced" data-es="Avanzado">Advanced</span>
           </div>
           <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
         </div>
         <div class="skill-item">
           <div class="skill-top">
             <span class="skill-name">Django</span>
-            <span class="skill-level">Intermedio</span>
+            <span class="skill-level" data-en="Intermediate" data-es="Intermedio">Intermediate</span>
           </div>
           <div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div>
         </div>
         <div class="skill-item">
           <div class="skill-top">
             <span class="skill-name">Tailwind CSS</span>
-            <span class="skill-level">Avanzado</span>
+            <span class="skill-level" data-en="Advanced" data-es="Avanzado">Advanced</span>
           </div>
           <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
         </div>
@@ -484,52 +522,51 @@
     <main class="main">
 
       <div class="section">
-        <h2 class="section-title">Sobre mí</h2>
-        <p class="bio">
-          Desarrollador web freelance especializado en aplicaciones de gestión a medida para pymes y autónomos.
-          Construyo soluciones completas con <strong>Laravel</strong> y <strong>Django</strong>: desde el diseño
-          del modelo de datos hasta el despliegue en producción. También ofrezco asesoría sobre infraestructura
-          Linux y entornos de servidor. Código limpio, comunicación directa y plazos cumplidos.
+        <h2 class="section-title" data-en="About me" data-es="Sobre mí">About me</h2>
+        <p class="bio" data-en="Freelance web developer specialised in custom management applications for SMEs and self-employed professionals. I build end-to-end solutions with <strong>Laravel</strong> and <strong>Django</strong>: from data model design to production deployment. I also offer consulting on Linux infrastructure and server environments. Clean code, direct communication and deadlines met." data-es="Desarrollador web freelance especializado en aplicaciones de gestión a medida para pymes y autónomos. Construyo soluciones completas con <strong>Laravel</strong> y <strong>Django</strong>: desde el diseño del modelo de datos hasta el despliegue en producción. También ofrezco asesoría sobre infraestructura Linux y entornos de servidor. Código limpio, comunicación directa y plazos cumplidos.">
+          Freelance web developer specialised in custom management applications for SMEs and self-employed professionals.
+          I build end-to-end solutions with <strong>Laravel</strong> and <strong>Django</strong>: from data model design
+          to production deployment. I also offer consulting on Linux infrastructure and server environments.
+          Clean code, direct communication and deadlines met.
         </p>
       </div>
 
       <div class="section">
-        <h2 class="section-title">Servicios</h2>
+        <h2 class="section-title" data-en="Services" data-es="Servicios">Services</h2>
         <div class="services">
           <div class="service-card">
             <div class="service-icon-wrap">⚙️</div>
-            <div class="service-name">Desarrollo web a medida</div>
-            <div class="service-desc">Apps con Laravel o Django, APIs, CRUD, paneles de estadísticas, despliegue Docker.</div>
+            <div class="service-name" data-en="Custom web development" data-es="Desarrollo web a medida">Custom web development</div>
+            <div class="service-desc" data-en="Apps with Laravel or Django, APIs, CRUD, stats dashboards, Docker deployment." data-es="Apps con Laravel o Django, APIs, CRUD, paneles de estadísticas, despliegue Docker.">Apps with Laravel or Django, APIs, CRUD, stats dashboards, Docker deployment.</div>
           </div>
           <div class="service-card">
             <div class="service-icon-wrap">🖥️</div>
-            <div class="service-name">Administración Linux</div>
-            <div class="service-desc">Configuración de servidores, scripting Bash, Docker, optimización de entornos.</div>
+            <div class="service-name" data-en="Linux administration" data-es="Administración Linux">Linux administration</div>
+            <div class="service-desc" data-en="Server setup, Bash scripting, Docker, environment optimisation." data-es="Configuración de servidores, scripting Bash, Docker, optimización de entornos.">Server setup, Bash scripting, Docker, environment optimisation.</div>
           </div>
           <div class="service-card">
             <div class="service-icon-wrap">💬</div>
-            <div class="service-name">Consultoría técnica</div>
-            <div class="service-desc">Auditoría de proyectos, elección de stack, revisión de arquitectura y código.</div>
+            <div class="service-name" data-en="Technical consulting" data-es="Consultoría técnica">Technical consulting</div>
+            <div class="service-desc" data-en="Project audits, stack selection, architecture and code review." data-es="Auditoría de proyectos, elección de stack, revisión de arquitectura y código.">Project audits, stack selection, architecture and code review.</div>
           </div>
         </div>
       </div>
 
       <div class="section">
-        <h2 class="section-title">Proyectos</h2>
+        <h2 class="section-title" data-en="Projects" data-es="Proyectos">Projects</h2>
         <div class="project-card">
           <div class="project-head">
             <div>
-              <div class="project-title">Almacén de palets — Gestión de inventario</div>
-              <div class="project-meta">Proyecto freelance · Cliente · Barcelona · 2026</div>
+              <div class="project-title" data-en="Pallet Warehouse — Inventory Management" data-es="Almacén de palets — Gestión de inventario">Pallet Warehouse — Inventory Management</div>
+              <div class="project-meta" data-en="Freelance project · Client · Barcelona · 2026" data-es="Proyecto freelance · Cliente · Barcelona · 2026">Freelance project · Client · Barcelona · 2026</div>
             </div>
-            <div class="project-badge">ENTREGADO</div>
+            <div class="project-badge" data-en="DELIVERED" data-es="ENTREGADO">DELIVERED</div>
           </div>
           <div class="project-body">
-            <p class="project-desc">
-              Aplicación web completa para gestionar palés de devoluciones de Amazon. Incluye CRUD de palés
-              y artículos con referencias autoasignadas, marcado de ventas, panel de estadísticas, autenticación
-              por <code>.env</code>, búsqueda AJAX, backup y restauración con PIN de seguridad y despliegue
-              con Docker para Windows.
+            <p class="project-desc" data-en="Full web application to manage Amazon return pallets. Includes pallet and item CRUD with auto-assigned references, sales tracking, statistics dashboard, <code>.env</code>-based authentication, AJAX search, PIN-protected backup &amp; restore, and Docker deployment for Windows." data-es="Aplicación web completa para gestionar palés de devoluciones de Amazon. Incluye CRUD de palés y artículos con referencias autoasignadas, marcado de ventas, panel de estadísticas, autenticación por <code>.env</code>, búsqueda AJAX, backup y restauración con PIN de seguridad y despliegue con Docker para Windows.">
+              Full web application to manage Amazon return pallets. Includes pallet and item CRUD with
+              auto-assigned references, sales tracking, statistics dashboard, <code>.env</code>-based
+              authentication, AJAX search, PIN-protected backup &amp; restore, and Docker deployment for Windows.
             </p>
             <div class="proj-tags">
               <span class="proj-tag">Laravel 11</span>
@@ -544,27 +581,27 @@
       </div>
 
       <div class="section">
-        <h2 class="section-title">Modalidad</h2>
+        <h2 class="section-title" data-en="Work mode" data-es="Modalidad">Work mode</h2>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
           <div style="background:var(--paper-2); border:0.5px solid var(--paper-3); border-radius:6px; padding:12px 18px; display:flex; align-items:center; gap:10px;">
             <span style="font-size:22px;">🌍</span>
             <div>
-              <div style="font-size:13px; font-weight:600; color:var(--ink);">100% Remoto</div>
-              <div style="font-size:12px; color:var(--ink-3);">Disponible en toda España y Europa</div>
+              <div style="font-size:13px; font-weight:600; color:var(--ink);" data-en="100% Remote" data-es="100% Remoto">100% Remote</div>
+              <div style="font-size:12px; color:var(--ink-3);" data-en="Available across Spain and Europe" data-es="Disponible en toda España y Europa">Available across Spain and Europe</div>
             </div>
           </div>
           <div style="background:var(--paper-2); border:0.5px solid var(--paper-3); border-radius:6px; padding:12px 18px; display:flex; align-items:center; gap:10px;">
             <span style="font-size:22px;">📋</span>
             <div>
-              <div style="font-size:13px; font-weight:600; color:var(--ink);">Por proyecto</div>
-              <div style="font-size:12px; color:var(--ink-3);">Tarifa fija o por horas</div>
+              <div style="font-size:13px; font-weight:600; color:var(--ink);" data-en="Per project" data-es="Por proyecto">Per project</div>
+              <div style="font-size:12px; color:var(--ink-3);" data-en="Fixed rate or hourly" data-es="Tarifa fija o por horas">Fixed rate or hourly</div>
             </div>
           </div>
           <div style="background:var(--paper-2); border:0.5px solid var(--paper-3); border-radius:6px; padding:12px 18px; display:flex; align-items:center; gap:10px;">
             <span style="font-size:22px;">⚡</span>
             <div>
-              <div style="font-size:13px; font-weight:600; color:var(--ink);">Respuesta rápida</div>
-              <div style="font-size:12px; color:var(--ink-3);">Comunicación directa y ágil</div>
+              <div style="font-size:13px; font-weight:600; color:var(--ink);" data-en="Fast response" data-es="Respuesta rápida">Fast response</div>
+              <div style="font-size:12px; color:var(--ink-3);" data-en="Direct and agile communication" data-es="Comunicación directa y ágil">Direct and agile communication</div>
             </div>
           </div>
         </div>
@@ -575,4 +612,14 @@
   <div class="footer-line"></div>
 </div>
 </body>
+<script>
+  function setLang(lang) {
+    document.querySelectorAll('[data-en]').forEach(el => {
+      el.innerHTML = el.dataset[lang];
+    });
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+    document.documentElement.lang = lang;
+  }
+</script>
 </html>
